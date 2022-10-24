@@ -1,7 +1,7 @@
 package backend.ssi.comment.domain
 
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 data class Comment(
         val commentId: UUID,
