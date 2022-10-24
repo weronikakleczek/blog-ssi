@@ -15,6 +15,7 @@ dependencies {
     implementation("com.google.guava:guava:31.0.1-jre")
     implementation("org.http4k:http4k-core:4.32.3.0")
     implementation("org.http4k:http4k-server-jetty:4.32.3.0")
+    implementation("org.litote.kmongo:kmongo:4.7.1")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")

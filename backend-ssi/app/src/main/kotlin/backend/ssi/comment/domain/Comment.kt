@@ -1,10 +1,10 @@
 package backend.ssi.comment.domain
 
+import org.litote.kmongo.Id
 import java.time.Instant
-import java.util.UUID
 
 data class Comment(
-        val commentId: UUID,
+        val commentId: Id<Comment>,
         val content: String,
         val date: Instant
 )
