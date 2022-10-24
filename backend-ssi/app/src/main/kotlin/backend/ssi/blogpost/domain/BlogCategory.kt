@@ -1,5 +1,5 @@
 package backend.ssi.blogpost.domain
 
 enum class BlogCategory {
-    TECH, SPORT, FASHION, LIFESTYLE, LITERATURE, CARS, TUTORIAL
+    TECH, SPORT, FASHION, LIFESTYLE, LITERATURE, CARS, TUTORIAL, OTHER
 }
