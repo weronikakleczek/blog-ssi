@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: db-ssi  
+      MONGO_INITDB_ROOT_USERNAME: ssi
+      MONGO_INITDB_ROOT_PASSWORD: ssi 
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db-ssi/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./db-ssi/data:/tmp/data
+    networks:
+      - mongo-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: ssi
+      ME_CONFIG_BASICAUTH_PASSWORD: ssi
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ssi
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ssi
+    links:
+      - mongodb
+    networks:
+      - mongo-network
+
+networks: 
+    mongo-network:
+      driver: bridge
+
