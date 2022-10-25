@@ -9,7 +9,7 @@ import org.litote.kmongo.KMongo
 
 object DbConfig {
 
-    // this can be moved to some config file or anything external in the future
+    // TODO: this can be moved to some config file or anything external in the future
     private const val mongoUser: String = "ssi"
     private const val mongoPassword: String = "ssi"
     private const val mongoHost: String = "localhost"
