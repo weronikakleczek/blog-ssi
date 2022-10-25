@@ -1,14 +1,14 @@
 package backend.ssi.user.domain
 
+import org.litote.kmongo.Id
 import java.time.Instant
-import java.util.UUID
 
 data class User(
-        val userId: UUID,
+        val userId: Id<User>,
         val username: String,
         val password: String,
         val firstName: String,
         val lastName: String,
         val aboutMe: String,
-        val createdAt: Instant
+        val createdAt: Instant,
 )
