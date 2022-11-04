@@ -1,5 +1,22 @@
+import { Box } from "@mui/material";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 const App = () => {
-  return <div className="App">Hello, World!</div>;
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
 };
 
 export default App;

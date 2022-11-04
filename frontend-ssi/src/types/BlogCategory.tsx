@@ -3,7 +3,7 @@ export enum BlogCategory {
   SPORT,
   FASHION,
   LIFESTYLE,
-  LITERATURE,
+  BOOKS,
   CARS,
   TUTORIAL,
   OTHER,
