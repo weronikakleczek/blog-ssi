@@ -1,6 +1,6 @@
 package backend.ssi
 
-import backend.ssi.user.repository.UserRepository
+import backend.ssi.user.dao.UserDao
 import backend.ssi.user.routes.UserRoutes
 import backend.ssi.user.service.UserService
 import org.http4k.core.Method.GET
@@ -16,9 +16,9 @@ import org.http4k.server.asServer
 
 fun main() {
 
-    val userRepository: UserRepository = UserRepository()
-    val userService: UserService = UserService(userRepository)
-    val userRoutes: UserRoutes = UserRoutes(userService)
+    val userDao = UserDao()
+    val userService = UserService(userDao)
+    val userRoutes = UserRoutes(userService)
 
 
     val chainedRoutes: RoutingHttpHandler = routes(
