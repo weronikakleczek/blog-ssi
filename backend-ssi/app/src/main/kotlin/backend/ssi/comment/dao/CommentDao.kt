@@ -19,6 +19,4 @@ class CommentDao: Dao<Comment> {
 
     override fun update(updatedT: Comment) { commentCollection.replaceOneById(updatedT.commentId, updatedT) }
 
-    // TODO: Funkcja do szukania komentarzy po treści?
-    //fun findByContent(query: String): List<Comment> = commentCollection.find()
 }

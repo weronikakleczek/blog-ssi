@@ -21,5 +21,4 @@ class BlogPostDao: Dao<BlogPost> {
 
     override fun update(updatedT: BlogPost) { blogPostCollection.replaceOneById(updatedT.blogPostId, updatedT) }
 
-    // TODO: Funkcje do szukania po treści?
 }
