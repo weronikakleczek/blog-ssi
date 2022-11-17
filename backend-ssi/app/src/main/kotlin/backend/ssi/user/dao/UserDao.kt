@@ -8,7 +8,11 @@ import org.litote.kmongo.*
 
 
 class UserDao: Dao<User> {
-    private val userCollection: MongoCollection<User> = DbConfig.database.getCollection<User>("user")
+
+    companion object {
+        private val userCollection: MongoCollection<User> = DbConfig.database.getCollection<User>("user")
+
+    }
 
     override fun getById(id: String): User? = userCollection.findOneById(id)
 

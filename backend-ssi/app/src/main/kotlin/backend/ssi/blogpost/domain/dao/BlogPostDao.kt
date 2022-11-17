@@ -7,7 +7,11 @@ import com.mongodb.client.MongoCollection
 import org.litote.kmongo.*
 
 class BlogPostDao: Dao<BlogPost> {
-    private val blogPostCollection: MongoCollection<BlogPost> = DbConfig.database.getCollection<BlogPost>("post")
+
+    companion object {
+        private val blogPostCollection: MongoCollection<BlogPost> = DbConfig.database.getCollection<BlogPost>("post")
+
+    }
 
     override fun getById(id: String): BlogPost? = blogPostCollection.findOneById(id)
 

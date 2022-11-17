@@ -7,7 +7,9 @@ import com.mongodb.client.MongoCollection
 import org.litote.kmongo.*
 
 class CommentDao: Dao<Comment> {
-    private val commentCollection: MongoCollection<Comment> = DbConfig.database.getCollection<Comment>("comment")
+    companion object {
+        private val commentCollection: MongoCollection<Comment> = DbConfig.database.getCollection<Comment>("comment")
+    }
 
     override fun getById(id: String): Comment? = commentCollection.findOneById(id)
 
