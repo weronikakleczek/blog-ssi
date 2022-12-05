@@ -6,18 +6,52 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { RegisterRequest } from "../types/RegisterRequest";
 
 const Register = () => {
+
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [aboutMe, setAmoutMe] = useState("");
 
-  const handle = (e: React.MouseEvent<HTMLElement>) => {
+  const handleRegister = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    // implement
+    console.log("working!");
+
+    if (login && password && firstName && lastName && aboutMe) {
+      const registerRequest: RegisterRequest = {
+        username: login,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        aboutMe: aboutMe,
+      };
+
+      axios
+        .post(
+          "http://localhost:9000/auth/register",
+          JSON.stringify(registerRequest),
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          console.log("Registered succesfully. Response: ", response)
+          navigate("/");
+        })
+        .catch((e) => {
+          //todo: display error
+          console.log("Error registering: " + e);
+        });
+    } else {
+      //todo: display error
+      console.log("Cannot log in, provide all credentials.");
+    }
   };
 
   return (
@@ -81,7 +115,11 @@ const Register = () => {
               value={aboutMe}
               onChange={(e) => setAmoutMe(e.target.value)}
             />
-            <IconButton color="primary" sx={{ margin: "0 auto", mt: "1rem" }}>
+            <IconButton
+              onClick={handleRegister}
+              color="primary"
+              sx={{ margin: "0 auto", mt: "1rem" }}
+            >
               <PersonAddIcon fontSize="large" />
             </IconButton>
           </FormControl>

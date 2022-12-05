@@ -14,7 +14,7 @@ import {
   red,
   teal,
 } from "@mui/material/colors";
-import { FC } from "react";
+import React, { FC } from "react";
 import { BlogCategory } from "../types/BlogCategory";
 import { BlogPost } from "../types/BlogPost";
 

@@ -6,15 +6,53 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { LoginRequest } from "../types/LoginRequest";
+import authHeader from "../auth/AuthHeader";
+import { useNavigate } from "react-router-dom";
+import { config } from "process";
+import UserContext from "../UserContext";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const handle = (e: React.MouseEvent<HTMLElement>) => {
+  const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    // implement
+
+    if (login && password) {
+      const loginRequest: LoginRequest = {
+        username: login,
+        password: password,
+      };
+
+      axios
+        .post(
+          "http://localhost:9000/auth/login",
+          JSON.stringify(loginRequest),
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          localStorage.setItem(
+            "jwt",
+            JSON.stringify(response.data).replace(/\"/g, "")
+          );
+          setUser(login);
+          navigate("/");
+        })
+        .catch((e) => {
+          //todo: display error
+          console.log("Error logging in: " + e);
+        });
+    } else {
+      //todo: display error
+      console.log("Cannot log in, provide all credentials.");
+    }
   };
 
   return (
@@ -55,7 +93,11 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <IconButton color="primary" sx={{ margin: "0 auto", mt: "1rem" }}>
+            <IconButton
+              onClick={handleLogin}
+              color="primary"
+              sx={{ margin: "0 auto", mt: "1rem" }}
+            >
               <LoginIcon fontSize="large" />
             </IconButton>
           </FormControl>
