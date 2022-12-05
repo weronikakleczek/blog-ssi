@@ -1,4 +1,4 @@
-package backend.ssi.blogpost.domain.dto
+package backend.ssi.blogpost.dto
 
 import backend.ssi.blogpost.domain.BlogCategory
 
