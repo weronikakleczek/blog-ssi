@@ -1,10 +1,19 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import BlogList from "../components/BlogList";
 import { BlogCategory } from "../types/BlogCategory";
 import { BlogPost } from "../types/BlogPost";
+import { User } from "../types/User";
 
-const Home = () => {
+const BlogPosts = () => {
+  const { id } = useParams();
+  const [user, setUser] = useState<User>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    
+  }, []);
   const fistBlog: BlogPost = {
     blogPostId: "abc",
     title: "First blog",
@@ -64,11 +73,11 @@ const Home = () => {
       pt="10vh"
     >
       <Typography variant="h3" mb="4vh">
-        Recent blog posts
+        Blogs of user with ID {id}{" "}
       </Typography>
       <BlogList blogs={tempBlogList} />
     </Box>
   );
 };
 
-export default Home;
+export default BlogPosts;

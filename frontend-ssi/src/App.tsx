@@ -1,20 +1,31 @@
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import BlogPosts from "./pages/BlogPosts";
+import useLocalStorage from "./Hooks";
+import UserContext from "./UserContext";
+import Logout from "./pages/Logout";
 
 const App = () => {
+  const [user, setUser] = useLocalStorage<string>("user", "");
+
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Layout>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/user/:id/blog-post" element={<BlogPosts />} />
+          </Routes>
+        </Layout>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 };

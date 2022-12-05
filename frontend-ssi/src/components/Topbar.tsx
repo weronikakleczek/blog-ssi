@@ -1,15 +1,19 @@
+import React, { useContext } from "react";
 import { Button, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../UserContext";
 
 interface Props {
   topbarHeight: number;
 }
 
 const Topbar: FC<Props> = ({ topbarHeight }) => {
+  const { user, setUser } = useContext(UserContext);
+
   return (
     <AppBar
       position="fixed"
@@ -41,28 +45,53 @@ const Topbar: FC<Props> = ({ topbarHeight }) => {
         <Box
           sx={{ display: "flex", flexGrow: 1, justifyContent: "space-evenly" }}
         >
-          <Button
-            variant="outlined"
-            color="info"
-            component={Link}
-            to="/register"
-            sx={{
-              fontSize: 18,
-            }}
-          >
-            register
-          </Button>
-          <Button
-            variant="outlined"
-            color="info"
-            component={Link}
-            to="/login"
-            sx={{
-              fontSize: 18,
-            }}
-          >
-            login
-          </Button>
+          {user ? (
+            <Typography
+              sx={{
+                fontSize: 20,
+                mt: "5px",
+              }}
+            >
+              Hello, {user}
+            </Typography>
+          ) : (
+            <Button
+              variant="outlined"
+              color="info"
+              component={Link}
+              to="/register"
+              sx={{
+                fontSize: 18,
+              }}
+            >
+              register
+            </Button>
+          )}
+          {user ? (
+            <Button
+              variant="outlined"
+              color="info"
+              component={Link}
+              to="/logout"
+              sx={{
+                fontSize: 18,
+              }}
+            >
+              logout
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              color="info"
+              component={Link}
+              to="/login"
+              sx={{
+                fontSize: 18,
+              }}
+            >
+              login
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

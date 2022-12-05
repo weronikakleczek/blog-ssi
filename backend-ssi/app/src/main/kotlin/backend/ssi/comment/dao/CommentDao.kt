@@ -5,13 +5,14 @@ import backend.ssi.infrastructure.Dao
 import backend.ssi.infrastructure.db.DbConfig
 import com.mongodb.client.MongoCollection
 import org.litote.kmongo.*
+import org.litote.kmongo.id.WrappedObjectId
 
 class CommentDao: Dao<Comment> {
     companion object {
         private val commentCollection: MongoCollection<Comment> = DbConfig.database.getCollection<Comment>("comment")
     }
 
-    override fun getById(id: String): Comment? = commentCollection.findOneById(id)
+    override fun getById(id: String): Comment? = commentCollection.findOne(Comment::commentId eq WrappedObjectId(id))
 
     override fun add(comment: Comment) = commentCollection.save(comment)
 
