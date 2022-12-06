@@ -47,7 +47,11 @@ fun main() {
     // Auth
     val contexts = RequestContexts()
     val contextCredentials: RequestContextLens<User> = RequestContextKey.required(contexts)
-    val corsFilter: Filter = ServerFilters.Cors.invoke(CorsPolicy.UnsafeGlobalPermissive)
+    val corsFilter: Filter = ServerFilters.Cors.invoke(
+        CorsPolicy.UnsafeGlobalPermissive.copy(
+            headers = CorsPolicy.UnsafeGlobalPermissive.headers.plus("Authorization")
+        )
+    )
     val jwtBearerFilter: (RequestContextLens<User>) -> Filter = { authService.userBearerAuthFilter(it) }
 
     // Combined routes

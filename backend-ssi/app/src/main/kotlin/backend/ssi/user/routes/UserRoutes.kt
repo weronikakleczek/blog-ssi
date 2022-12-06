@@ -11,6 +11,7 @@ import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
+import org.litote.kmongo.json
 
 class UserRoutes(private val userService: UserService) {
 
@@ -27,7 +28,7 @@ class UserRoutes(private val userService: UserService) {
                     println("Request made by ${credentials.extract(req)}")
                     user
                 }
-                ?.let { Response(Status.OK).body(it.toString()) }
+                ?.let { Response(Status.OK).body(it.json) }
                 ?: Response(Status.NOT_FOUND).body("Not Found")
         }
 
@@ -36,7 +37,7 @@ class UserRoutes(private val userService: UserService) {
             req
                 .let { req.query("username") }
                 ?.let { userService.getUserByUsername(it) }
-                ?.let { Response(Status.OK).body(it.toString()) }
+                ?.let { Response(Status.OK).body(it.json) }
                 ?: Response(Status.NOT_FOUND).body("Not Found")
         }
 

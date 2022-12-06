@@ -7,6 +7,9 @@ import backend.ssi.user.domain.User
 
 
 class BlogPostService(private val blogPostDao: BlogPostDao) {
+
+    fun getBlogPosts(): List<BlogPost> = blogPostDao.getAll()
+
     fun getBlogPostById(id: String): BlogPost? = blogPostDao.getById(id)
     fun addBlogPost(createPostRequest: CreatePostRequest, author: User) = validateBlogPost(createPostRequest)
         ?.let { BlogPost.fromCreatePostRequest(it, author.userId) }

@@ -9,6 +9,7 @@ import BlogPosts from "./pages/BlogPosts";
 import useLocalStorage from "./Hooks";
 import UserContext from "./UserContext";
 import Logout from "./pages/Logout";
+import SingleBlogPost from "./pages/BlogPost";
 
 const App = () => {
   const [user, setUser] = useLocalStorage<string>("user", "");
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/user/:id/blog-post" element={<BlogPosts />} />
+            <Route path="/blog-post/:id" element={<SingleBlogPost />} />
           </Routes>
         </Layout>
       </UserContext.Provider>

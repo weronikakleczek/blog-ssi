@@ -14,8 +14,8 @@ import {
   red,
   teal,
 } from "@mui/material/colors";
-import React, { FC } from "react";
-import { BlogCategory } from "../types/BlogCategory";
+import React, { FC, useEffect } from "react";
+import colors, { BlogCategory } from "../types/BlogCategory";
 import { BlogPost } from "../types/BlogPost";
 
 interface Props {
@@ -23,22 +23,16 @@ interface Props {
 }
 
 const BlogCard: FC<Props> = ({ blog }) => {
-  const colors: Record<string, string> = {
-    TECH: grey[700],
-    SPORT: lightGreen[500],
-    FASHION: amber[300],
-    LIFESTYLE: teal[100],
-    BOOKS: brown[200],
-    CARS: red[600],
-    TUTORIAL: lightBlue[400],
-    OTHER: grey[100],
-  };
 
   const getBlogContent = (content: string) => {
     return content.length >= 250
       ? content.slice(0, 250) + "..."
       : content.slice(0, 250);
   };
+
+  useEffect(() => {
+    console.log(colors["TECH"]);
+  }, []);
 
   return (
     <Card
@@ -59,10 +53,10 @@ const BlogCard: FC<Props> = ({ blog }) => {
         avatar={
           <Avatar
             sx={{
-              backgroundColor: colors[BlogCategory[blog.category]],
+              backgroundColor: colors[blog.category],
             }}
           >
-            {BlogCategory[blog.category][0]}
+            {blog.category.toString().charAt(0)}
           </Avatar>
         }
       />

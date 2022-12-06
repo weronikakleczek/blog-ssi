@@ -11,6 +11,7 @@ import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
+import org.litote.kmongo.json
 
 class CommentRoutes(private val commentService: CommentService) {
 
@@ -22,7 +23,7 @@ class CommentRoutes(private val commentService: CommentService) {
             req
                 .let { req.path("id") }
                 ?.let { commentService.getCommentById(it) }
-                ?.let { Response(Status.OK).body(it.toString()) }
+                ?.let { Response(Status.OK).body(it.json) }
                 ?: Response(Status.NOT_FOUND).body("Not Found")
         }
 

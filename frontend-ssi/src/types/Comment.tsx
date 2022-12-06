@@ -1,5 +1,7 @@
+import { uuid } from "./uuid";
+
 export interface Comment {
-  commentId: string;
+  commentId: uuid;
   content: string;
   date: Date;
 }

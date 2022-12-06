@@ -1,58 +1,27 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import authHeader from "../auth/AuthHeader";
 import BlogList from "../components/BlogList";
 import { BlogCategory } from "../types/BlogCategory";
 import { BlogPost } from "../types/BlogPost";
 
 const Home = () => {
-  const fistBlog: BlogPost = {
-    blogPostId: "abc",
-    title: "First blog",
-    content:
-      "This is a first blog's content with a long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long content",
-    category: BlogCategory.TECH,
-    date: new Date(),
-  };
+  const [blogs, setBlogs] = useState<BlogPost[] | undefined>(undefined);
 
-  const secondBlog: BlogPost = {
-    blogPostId: "def",
-    title: "Second blog",
-    content: "This is a second blog's content",
-    category: BlogCategory.FASHION,
-    date: new Date(),
-  };
-
-  const thirdBlog: BlogPost = {
-    blogPostId: "ghi",
-    title: "Third blog",
-    content: "This is a third blog's content",
-    category: BlogCategory.BOOKS,
-    date: new Date(),
-  };
-
-  const fourthBlog: BlogPost = {
-    blogPostId: "jkl",
-    title: "Fourth blog",
-    content: "This is a fourth blog's content",
-    category: BlogCategory.CARS,
-    date: new Date(),
-  };
-
-  const fifthBlog: BlogPost = {
-    blogPostId: "mno",
-    title: "Fifth blog",
-    content: "This is a fifth blog's content",
-    category: BlogCategory.OTHER,
-    date: new Date(),
-  };
-
-  const tempBlogList: BlogPost[] = [
-    fistBlog,
-    secondBlog,
-    thirdBlog,
-    fourthBlog,
-    fifthBlog,
-  ];
+  useEffect(() => {
+    axios
+      .get(`http://localhost:9000/blog-post`, { headers: authHeader() })
+      .then((responseBlogPosts) => {
+        const blogPostsString: string = JSON.stringify(responseBlogPosts.data);
+        const blogPostsObject: BlogPost[] = JSON.parse(blogPostsString);
+        setBlogs(blogPostsObject);
+        console.log("Retrieved blogs: ", blogPostsObject);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+  }, []);
 
   return (
     <Box
@@ -66,7 +35,7 @@ const Home = () => {
       <Typography variant="h3" mb="4vh">
         Recent blog posts
       </Typography>
-      <BlogList blogs={tempBlogList} />
+      {blogs !== undefined && <BlogList blogs={blogs} />}
     </Box>
   );
 };

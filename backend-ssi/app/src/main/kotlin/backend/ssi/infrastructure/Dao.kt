@@ -2,6 +2,8 @@ package backend.ssi.infrastructure
 
 interface Dao<T> {
 
+    fun getAll(): List<T>
+
     fun getById(id: String): T?
 
     fun add(user: T)
