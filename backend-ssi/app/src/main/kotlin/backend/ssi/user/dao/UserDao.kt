@@ -14,6 +14,8 @@ class UserDao : Dao<User> {
         private val userCollection: MongoCollection<User> = DbConfig.database.getCollection<User>("user")
     }
 
+    override fun getAll(): List<User> = userCollection.find().toList()
+
     override fun getById(id: String): User? = userCollection.findOne(User::userId eq WrappedObjectId(id))
 
     override fun add(user: User) = userCollection.save(user)

@@ -14,6 +14,9 @@ class BlogPostDao : Dao<BlogPost> {
 
     }
 
+    override fun getAll(): List<BlogPost> =
+        blogPostCollection.find().toList()
+
     override fun getById(id: String): BlogPost? =
         blogPostCollection.findOne(BlogPost::blogPostId eq WrappedObjectId(id))
 

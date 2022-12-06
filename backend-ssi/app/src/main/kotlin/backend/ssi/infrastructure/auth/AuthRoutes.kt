@@ -8,6 +8,7 @@ import org.http4k.lens.BiDiBodyLens
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.routes
+import org.litote.kmongo.json
 
 class AuthRoutes(private val authService: AuthService) {
 
@@ -21,7 +22,7 @@ class AuthRoutes(private val authService: AuthService) {
     private val register: RoutingHttpHandler = "/auth/register" bind Method.POST to { req: Request ->
         createUserRequestLens.extract(req)
             .let { authService.registerUser(it) }
-            ?.let { Response(Status.OK).body(it.toString()) }
+            ?.let { Response(Status.OK).body(it.json) }
             ?: Response(Status.BAD_REQUEST).body("Could not register user.")
     }
 
