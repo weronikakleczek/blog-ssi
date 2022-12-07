@@ -58,17 +58,25 @@ fun main() {
     val authorizedRoutes: (RequestContextLens<User>) -> RoutingHttpHandler = { credentials ->
         jwtBearerFilter(credentials).then(
             routes(
-                userRoutes.getUserRoutes(credentials),
-                blogPostRoutes.getBlogPostRoutes(credentials),
-                commentRoutes.getCommentRoutes(credentials)
+                blogPostRoutes.getAuthedBlogPostRoutes(credentials),
+                commentRoutes.getAuthedCommentRoutes(credentials)
             )
         )
     }
 
+    val unauthorizedRoutes: RoutingHttpHandler =
+        routes(
+            userRoutes.getUnauthedUserRoutes(),
+            blogPostRoutes.getUnauthedBlogPostRoutes(),
+            commentRoutes.getUnauthedCommentRoutes()
+        )
+
+
     val allRoutes: (RequestContextLens<User>) -> RoutingHttpHandler = {
         routes(
             authRoutes.getAuthRoutes(),
-            authorizedRoutes(it)
+            authorizedRoutes(it),
+            unauthorizedRoutes
         )
     }
 

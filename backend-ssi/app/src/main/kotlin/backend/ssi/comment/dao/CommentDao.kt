@@ -19,6 +19,8 @@ class CommentDao : Dao<Comment> {
 
     override fun add(comment: Comment) = commentCollection.save(comment)
 
+
+
     override fun delete(id: String) {
         commentCollection.deleteOneById(id)
     }
@@ -27,4 +29,6 @@ class CommentDao : Dao<Comment> {
         commentCollection.replaceOneById(updatedT.commentId, updatedT)
     }
 
+    fun getCommentsForBlogPost(id: String): List<Comment> =
+        commentCollection.find(Comment::blogPostId eq WrappedObjectId(id)).toList()
 }

@@ -18,19 +18,19 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
     private val loginRequestLens: BiDiBodyLens<CreatePostRequest> = Body.auto<CreatePostRequest>().toLens()
 
 
-    fun getBlogPostRoutes(credentials: RequestContextLens<User>): RoutingHttpHandler =
-        routes(getBlogPosts(credentials), getBlogPostById(credentials), addBlogPost(credentials))
+    fun getAuthedBlogPostRoutes(credentials: RequestContextLens<User>): RoutingHttpHandler =
+        routes(addBlogPost(credentials))
 
+    fun getUnauthedBlogPostRoutes(): RoutingHttpHandler = routes(getBlogPosts(), getBlogPostById())
 
-    // todo: make this unauthorized
-    private fun getBlogPosts(credentials: RequestContextLens<User>): RoutingHttpHandler =
+    private fun getBlogPosts(): RoutingHttpHandler =
         "/blog-post" bind Method.GET to { req: Request ->
             req
                 .let { blogPostService.getBlogPosts() }
                 .let { Response(Status.OK).body(it.json) }
         }
 
-    private fun getBlogPostById(credentials: RequestContextLens<User>): RoutingHttpHandler =
+    private fun getBlogPostById(): RoutingHttpHandler =
         "/blog-post/{id}" bind Method.GET to { req: Request ->
             req
                 .let { req.path("id") }
