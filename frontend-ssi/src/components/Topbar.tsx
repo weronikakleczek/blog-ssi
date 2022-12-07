@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { Button, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { FC } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../UserContext";
 
@@ -12,7 +11,7 @@ interface Props {
 }
 
 const Topbar: FC<Props> = ({ topbarHeight }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <AppBar
@@ -52,7 +51,7 @@ const Topbar: FC<Props> = ({ topbarHeight }) => {
                 mt: "5px",
               }}
             >
-              Hello, {user}
+              Hello, {user.username}
             </Typography>
           ) : (
             <Button

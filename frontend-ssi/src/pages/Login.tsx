@@ -11,16 +11,30 @@ import React, { useContext, useState } from "react";
 import { LoginRequest } from "../types/LoginRequest";
 import authHeader from "../auth/AuthHeader";
 import { useNavigate } from "react-router-dom";
-import { config } from "process";
+import {User} from "../types/User";
 import UserContext from "../UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+
+  const getDetailedUser = (username: string) => {
+    axios
+        .get(`http://localhost:9000/users/username/`+username, {
+          headers: authHeader(),
+        })
+        .then((response) => {
+          const user: User = JSON.parse(JSON.stringify(response.data));
+          setUser(user);
+        })
+        .catch((e) => {
+          console.log("Error getting an user: ", e);
+        });
+  }
 
   const handleLogin = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -42,7 +56,7 @@ const Login = () => {
             "jwt",
             JSON.stringify(response.data).replace(/\"/g, "")
           );
-          setUser(login);
+          getDetailedUser(login);
           navigate("/");
         })
         .catch((e) => {

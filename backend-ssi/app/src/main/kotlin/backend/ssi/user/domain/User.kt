@@ -13,6 +13,7 @@ data class User(
     val lastName: String,
     val aboutMe: String,
     val createdAt: Instant,
+    val entitlements: String = "user"
 ) {
     companion object {
         fun fromCreateUserRequest(createUserRequest: CreateUserRequest) = User(

@@ -8,4 +8,5 @@ export interface User {
   lastName: string;
   aboutMe: string;
   createdAt: Date;
+  entitlements: string;
 }
