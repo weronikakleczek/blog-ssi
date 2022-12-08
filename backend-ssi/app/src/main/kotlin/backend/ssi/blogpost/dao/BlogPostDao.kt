@@ -15,10 +15,10 @@ class BlogPostDao : Dao<BlogPost> {
     }
 
     override fun getAll(): List<BlogPost> =
-        blogPostCollection.find().toList()
+            blogPostCollection.find().toList()
 
     override fun getById(id: String): BlogPost? =
-        blogPostCollection.findOne(BlogPost::blogPostId eq WrappedObjectId(id))
+            blogPostCollection.findOne(BlogPost::blogPostId eq WrappedObjectId(id))
 
     override fun add(blogPost: BlogPost) = blogPostCollection.save(blogPost)
 
@@ -29,5 +29,8 @@ class BlogPostDao : Dao<BlogPost> {
     override fun update(updatedT: BlogPost) {
         blogPostCollection.replaceOneById(updatedT.blogPostId, updatedT)
     }
+
+    fun getUsersBlogPosts(it: String): List<BlogPost> =
+            blogPostCollection.find(BlogPost::authorId eq WrappedObjectId(it)).toList()
 
 }

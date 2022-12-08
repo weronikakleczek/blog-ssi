@@ -34,11 +34,13 @@ const Register = () => {
         aboutMe: aboutMe,
       };
 
+      console.log("rr: ",  registerRequest)
+
       axios
         .post(
           "http://localhost:9000/auth/register",
           JSON.stringify(registerRequest),
-          { headers: { "Content-Type": "application/json" } }
+          { headers: { "content-type": "application/json" } }
         )
         .then((response) => {
           console.log("Registered succesfully. Response: ", response)

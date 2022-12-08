@@ -25,4 +25,6 @@ class BlogPostService(private val blogPostDao: BlogPostDao) {
 
         return if (isTitleValid && isContentValid) createPostRequest else null
     }
+
+    fun getUsersBlogPosts(it: String): List<BlogPost> = blogPostDao.getUsersBlogPosts(it)
 }

@@ -21,7 +21,7 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
     fun getAuthedBlogPostRoutes(credentials: RequestContextLens<User>): RoutingHttpHandler =
         routes(addBlogPost(credentials))
 
-    fun getUnauthedBlogPostRoutes(): RoutingHttpHandler = routes(getBlogPosts(), getBlogPostById())
+    fun getUnauthedBlogPostRoutes(): RoutingHttpHandler = routes(getBlogPosts(), getBlogPostById(), getUsersBlgoPosts())
 
     private fun getBlogPosts(): RoutingHttpHandler =
         "/blog-post" bind Method.GET to { req: Request ->
@@ -47,4 +47,15 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
                 ?.let { Response(Status.OK).body(it.json) }
                 ?: Response(Status.NOT_FOUND).body("Not Found")
         }
+
+
+
+    private fun getUsersBlgoPosts(): RoutingHttpHandler =
+            "/users/{id}/blog-post" bind Method.GET to { req: Request ->
+                req
+                        .let { req.path("id") }
+                        ?.let { blogPostService.getUsersBlogPosts(it) }
+                        ?.let { Response(Status.OK).body(it.json) }
+                        ?: Response(Status.NOT_FOUND).body("Not Found")
+            }
 }

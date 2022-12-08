@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Button, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import UserContext from "../UserContext";
+import {User} from "../types/User";
+import axios from "axios";
+import authHeader from "../auth/AuthHeader";
 
 interface Props {
   topbarHeight: number;
@@ -13,6 +16,24 @@ interface Props {
 
 const Topbar: FC<Props> = ({ topbarHeight }) => {
   const { user, setUser } = useContext(UserContext);
+
+    const [loggedInUser, setLoggedInUser] = useState<User | undefined>(undefined);
+
+    useEffect(() => {
+
+        axios
+            .get(`http://localhost:9000/users/auth/me`, {
+                headers: authHeader(),
+            })
+            .then((responseAuthor) => {
+                const user: string = JSON.stringify(
+                    responseAuthor.data
+                );
+                const userObject: User = JSON.parse(user);
+                console.log("user obj: ", userObject)
+                setLoggedInUser(userObject);
+            });
+    })
 
   return (
     <AppBar
@@ -52,7 +73,12 @@ const Topbar: FC<Props> = ({ topbarHeight }) => {
                 mt: "5px",
               }}
             >
-              Hello, {user}
+                {
+                    loggedInUser !== undefined ?
+                        <Box> Hello, <Link to={`/user/${loggedInUser.userId.$oid}/blog-post`} style={{ textDecoration: "none", color: "#ddd" }}>{user}</Link></Box>
+                    :
+                        <Box>Hello, {user}</Box>
+                }
             </Typography>
           ) : (
             <Button

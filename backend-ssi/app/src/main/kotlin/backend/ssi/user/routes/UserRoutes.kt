@@ -16,19 +16,28 @@ import org.litote.kmongo.json
 class UserRoutes(private val userService: UserService) {
 
     fun getUnauthedUserRoutes(): RoutingHttpHandler =
-        routes(getUserById())
+            routes(getUserById())
 
+    fun getAuthedUserRoutes(credentials: RequestContextLens<User>): RoutingHttpHandler =
+            routes(getLoggedInUser(credentials))
 
 
     private fun getUserById(): RoutingHttpHandler =
-        "/users/{id}" bind Method.GET to { req: Request ->
-            req
-                .let { req.path("id") }
-                ?.let { userService.getUserById(it) }
-                ?.let { Response(Status.OK).body(it.json) }
-                ?: Response(Status.NOT_FOUND).body("Not Found")
-        }
+            "/users/{id}" bind Method.GET to { req: Request ->
+                req
+                        .let { req.path("id") }
+                        ?.let { userService.getUserById(it) }
+                        ?.let { Response(Status.OK).body(it.json) }
+                        ?: Response(Status.NOT_FOUND).body("Not Found")
+            }
 
+    private fun getLoggedInUser(credentials: RequestContextLens<User>): RoutingHttpHandler =
+            "/users/auth/me" bind Method.GET to { req: Request ->
+                req
+                        .let { userService.getUserById(credentials.extract(req).userId.toString()) }
+                        ?.let { Response(Status.OK).body(it.json) }
+                        ?: Response(Status.NOT_FOUND).body("Not Found")
+            }
 
 
 }
