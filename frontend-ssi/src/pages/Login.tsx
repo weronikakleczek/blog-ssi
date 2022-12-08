@@ -29,7 +29,7 @@ const Login = () => {
         })
         .then((response) => {
           const user: User = JSON.parse(JSON.stringify(response.data));
-          setUser(user);
+          setUser(user.username);
         })
         .catch((e) => {
           console.log("Error getting an user: ", e);

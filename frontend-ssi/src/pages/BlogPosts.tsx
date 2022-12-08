@@ -4,14 +4,13 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import authHeader from "../auth/AuthHeader";
 import BlogList from "../components/BlogList";
-import {BlogCategory} from "../types/BlogCategory";
 import {BlogPost} from "../types/BlogPost";
 import {User} from "../types/User";
 
 const BlogPosts = () => {
     const {id} = useParams();
-    const [blogs, setBlogs] = useState<BlogPost[] | undefined>(undefined);
-    const [user, setUser] = useState<User | undefined>(undefined);
+    const [blogs, setBlogs] = useState<BlogPost[] | undefined>();
+    const [author, setAuthor] = useState<User | undefined>();
 
     const navigate = useNavigate();
 
@@ -26,7 +25,7 @@ const BlogPosts = () => {
                     responseAuthor.data
                 );
                 const userObject: User = JSON.parse(user);
-                setUser(userObject);
+                setAuthor(userObject);
             });
 
 
@@ -53,9 +52,9 @@ const BlogPosts = () => {
             pt="10vh"
         >
             <Typography variant="h3" mb="4vh">
-                { user ? `Blogs of ${user.username}` : "Couldn't load user"}
+                {author ? `Blogs of ${author.username}` : "Couldn't load author"}
             </Typography>
-            {blogs !== undefined && <BlogList blogs={blogs}/>}
+            {blogs !== undefined && <BlogList blogList={blogs} setBlogList={setBlogs}/>}
         </Box>
     );
 };

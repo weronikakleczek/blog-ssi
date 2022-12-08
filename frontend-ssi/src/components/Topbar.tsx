@@ -33,7 +33,7 @@ const Topbar: FC<Props> = ({ topbarHeight }) => {
                 console.log("user obj: ", userObject)
                 setLoggedInUser(userObject);
             });
-    })
+    },[])
 
   return (
     <AppBar

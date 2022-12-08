@@ -1,9 +1,12 @@
 import {Avatar, Button, Card, CardContent, CardHeader, Typography,} from "@mui/material";
-import React, {FC, useContext, useEffect} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import colors from "../types/BlogCategory";
 import {BlogPost} from "../types/BlogPost";
 import {Link} from "react-router-dom";
 import UserContext from "../UserContext";
+import {User} from "../types/User";
+import axios from "axios";
+import authHeader from "../auth/AuthHeader";
 
 interface Props {
     blog: BlogPost;
@@ -13,7 +16,23 @@ interface Props {
 
 const BlogCard: FC<Props> = ({blog, deletePostFun, deleteUserFun}) => {
 
-    const { user } = useContext(UserContext);
+    const [user, setUser] = useState<User | undefined>(undefined);
+
+    useEffect(() => {
+
+        axios
+            .get(`http://localhost:9000/users/auth/me`, {
+                headers: authHeader(),
+            })
+            .then((responseAuthor) => {
+                const user: string = JSON.stringify(
+                    responseAuthor.data
+                );
+                const userObject: User = JSON.parse(user);
+                console.log("user obj: ", userObject)
+                setUser(userObject);
+            });
+    },[])
 
     const getBlogContent = (content: string) => {
         return content.length >= 250
@@ -22,6 +41,7 @@ const BlogCard: FC<Props> = ({blog, deletePostFun, deleteUserFun}) => {
     };
 
     useEffect(() => {
+        console.log('">>>>>>>>>>>>>>????????????????')
         console.log(colors["TECH"]);
     }, []);
 
@@ -38,7 +58,7 @@ const BlogCard: FC<Props> = ({blog, deletePostFun, deleteUserFun}) => {
         >
             <Link
                 to={`/blog-post/${blog.blogPostId.$oid}`}
-                style={{textDecoration: "none"}}
+                style={{textDecoration: "none", color: "black"}}
             >
                 <CardHeader
                     title={blog.title}
