@@ -18,6 +18,9 @@ class BlogPostService(private val blogPostDao: BlogPostDao) {
             it
         }
 
+    fun deleteBlogPost(blogPostId: String) = blogPostDao.delete(blogPostId)
+
+    fun deleteBlogsByUserId(userId: String) = blogPostDao.deleteByUserId(userId)
 
     private fun validateBlogPost(createPostRequest: CreatePostRequest): CreatePostRequest? {
         val isTitleValid: Boolean = createPostRequest.title.length in 5..50

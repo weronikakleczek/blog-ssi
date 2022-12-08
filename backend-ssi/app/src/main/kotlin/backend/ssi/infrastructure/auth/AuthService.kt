@@ -53,7 +53,7 @@ class AuthService(private val userDao: UserDao) {
     private fun createJWT(subject: String, expiresIn: Date): String? =
         Jwts.builder().setSubject(subject).setExpiration(expiresIn).signWith(key).compact()
 
-    private fun getUserFromJWT(token: String) = decodeToken(token)
+    fun getUserFromJWT(token: String) = decodeToken(token)
         ?.let { userDao.getByUsername(it) }
 
 

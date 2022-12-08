@@ -59,7 +59,8 @@ fun main() {
         jwtBearerFilter(credentials).then(
             routes(
                 blogPostRoutes.getAuthedBlogPostRoutes(credentials),
-                commentRoutes.getAuthedCommentRoutes(credentials)
+                commentRoutes.getAuthedCommentRoutes(credentials),
+                userRoutes.getAuthedUserRoutes(credentials)
             )
         )
     }
