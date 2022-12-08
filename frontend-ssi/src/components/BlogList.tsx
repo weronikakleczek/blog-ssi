@@ -45,6 +45,10 @@ const BlogList: FC<Props> = ({blogList, setBlogList}) => {
 
     const deleteUserCallback = (userId: uuid) => {
         axios.delete(`http://localhost:9000/users/` + userId.$oid, {headers: authHeader()})
+            .then((response) => {
+                console.log("r: ", response)
+                console.log("rd: ", response.data)
+            })
             .catch((error) => {
                 console.log("Error: ", error);
             })

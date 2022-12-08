@@ -40,7 +40,6 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
                 ?: Response(Status.NOT_FOUND).body("Not Found")
         }
 
-    // todo: implement this on frontend
     private fun addBlogPost(credentials: RequestContextLens<User>): RoutingHttpHandler =
         "/blog-post" bind Method.POST to { req: Request ->
             loginRequestLens.extract(req)

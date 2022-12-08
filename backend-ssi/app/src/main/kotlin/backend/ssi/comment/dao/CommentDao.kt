@@ -21,7 +21,7 @@ class CommentDao : Dao<Comment> {
 
 
 
-    override fun delete(id: String) = commentCollection.deleteOneById(Comment::commentId eq WrappedObjectId(id))
+    override fun delete(id: String) = commentCollection.deleteOne(Comment::commentId eq WrappedObjectId(id))
 
 
     override fun update(updatedT: Comment) {

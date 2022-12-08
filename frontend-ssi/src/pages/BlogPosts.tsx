@@ -52,7 +52,7 @@ const BlogPosts = () => {
             pt="10vh"
         >
             <Typography variant="h3" mb="4vh">
-                {author ? `Blogs of ${author.username}` : "Couldn't load author"}
+                {author ? `Posts of ${author.username}` : "Couldn't load author"}
             </Typography>
             {blogs !== undefined && <BlogList blogList={blogs} setBlogList={setBlogs}/>}
         </Box>

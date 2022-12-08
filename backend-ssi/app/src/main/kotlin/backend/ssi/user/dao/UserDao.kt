@@ -20,7 +20,7 @@ class UserDao : Dao<User> {
 
     override fun add(user: User) = userCollection.save(user)
 
-    override fun delete(id: String) = userCollection.deleteOneById(User::userId eq WrappedObjectId(id))
+    override fun delete(id: String) = userCollection.deleteOne(User::userId eq WrappedObjectId(id))
 
     override fun update(updatedT: User) {
         userCollection.replaceOneById(updatedT.userId, updatedT)

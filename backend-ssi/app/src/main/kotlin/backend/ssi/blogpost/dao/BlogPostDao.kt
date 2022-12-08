@@ -24,7 +24,7 @@ class BlogPostDao : Dao<BlogPost> {
 
     override fun add(blogPost: BlogPost) = blogPostCollection.save(blogPost)
 
-    override fun delete(id: String) = blogPostCollection.deleteOneById(BlogPost::blogPostId eq WrappedObjectId(id))
+    override fun delete(id: String) = blogPostCollection.deleteOne(BlogPost::blogPostId eq WrappedObjectId(id))
     fun deleteByUserId(id: String): DeleteResult = blogPostCollection.deleteMany(BlogPost::authorId eq WrappedObjectId(id))
 
     override fun update(updatedT: BlogPost) {
