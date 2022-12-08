@@ -112,7 +112,7 @@ const SingleBlogPost = () => {
         display: "flex",
         flexDirection: "column",
         width: "100vw",
-        height: "100%",
+        minHeight: "100vh",
         alignItems: "center",
         justifyContent: "center",
       }}
@@ -123,7 +123,7 @@ const SingleBlogPost = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            minHeight: "100%",
+            minHeight: "100vh",
             width: "80vw",
             p: "4rem",
           }}
@@ -151,7 +151,7 @@ const SingleBlogPost = () => {
                   sx={{ borderBottom: "1px solid #bbb" }}
                 >
                   <Link
-                    to={`/users/${blogPostAuthor.userId.$oid}`}
+                    to={`/user/${blogPostAuthor.userId.$oid}/blog-post`}
                     style={{ textDecoration: "none", color: "#555" }}
                   >
                     {blogPostAuthor.username}

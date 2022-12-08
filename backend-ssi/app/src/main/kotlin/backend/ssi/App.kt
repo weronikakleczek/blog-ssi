@@ -48,43 +48,43 @@ fun main() {
     val contexts = RequestContexts()
     val contextCredentials: RequestContextLens<User> = RequestContextKey.required(contexts)
     val corsFilter: Filter = ServerFilters.Cors.invoke(
-        CorsPolicy.UnsafeGlobalPermissive.copy(
-            headers = CorsPolicy.UnsafeGlobalPermissive.headers.plus("Authorization")
-        )
+            CorsPolicy.UnsafeGlobalPermissive.copy(
+                    headers = CorsPolicy.UnsafeGlobalPermissive.headers.plus("Authorization")
+            )
     )
     val jwtBearerFilter: (RequestContextLens<User>) -> Filter = { authService.userBearerAuthFilter(it) }
 
     // Combined routes
     val authorizedRoutes: (RequestContextLens<User>) -> RoutingHttpHandler = { credentials ->
         jwtBearerFilter(credentials).then(
-            routes(
-                blogPostRoutes.getAuthedBlogPostRoutes(credentials),
-                commentRoutes.getAuthedCommentRoutes(credentials),
-                userRoutes.getAuthedUserRoutes(credentials)
-            )
+                routes(
+                        blogPostRoutes.getAuthedBlogPostRoutes(credentials),
+                        commentRoutes.getAuthedCommentRoutes(credentials),
+                        userRoutes.getAuthedUserRoutes(credentials)
+                )
         )
     }
 
     val unauthorizedRoutes: RoutingHttpHandler =
-        routes(
-            userRoutes.getUnauthedUserRoutes(),
-            blogPostRoutes.getUnauthedBlogPostRoutes(),
-            commentRoutes.getUnauthedCommentRoutes()
-        )
+            routes(
+                    userRoutes.getUnauthedUserRoutes(),
+                    blogPostRoutes.getUnauthedBlogPostRoutes(),
+                    commentRoutes.getUnauthedCommentRoutes()
+            )
 
 
     val allRoutes: (RequestContextLens<User>) -> RoutingHttpHandler = {
         routes(
-            authRoutes.getAuthRoutes(),
-            authorizedRoutes(it),
-            unauthorizedRoutes
+                authRoutes.getAuthRoutes(),
+                authorizedRoutes(it),
+                unauthorizedRoutes
         )
     }
 
     // Server init
     InitialiseRequestContext(contexts)
-        .then(corsFilter)
-        .then(allRoutes(contextCredentials))
-        .asServer(Jetty(9000))
-        .start()
+            .then(corsFilter)
+            .then(allRoutes(contextCredentials))
+            .asServer(Jetty(9000))
+            .start()
 }
