@@ -5,20 +5,23 @@ import {
     IconButton,
     TextField,
     Typography,
+    Select,
+    MenuItem,
+    InputLabel
 } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import authHeader from "../auth/AuthHeader";
 
-import { AddPostRequest} from "../types/AddPostRequest";
+import {AddPostRequest} from "../types/AddPostRequest";
 
 const AddPost = () => {
 
     const navigate = useNavigate();
 
-    const [title, setTitle] = useState(""); //login
-    const [content, setContent] = useState(""); //aboutMe
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
     const [category, setCategory] = useState("");
 
     const handleAddPost = (e: React.MouseEvent<HTMLElement>) => {
@@ -35,10 +38,10 @@ const AddPost = () => {
                 .post(
                     "http://localhost:9000/blog-post",
                     JSON.stringify(addPostRequest),
-                    { headers: authHeader(), }
-        )
+                    {headers: authHeader(),}
+                )
                 .then((response) => {
-                    console.log("Added post succesfully. Response: ", response)
+                    console.log("Added post successfully. Response: ", response)
                     navigate("/");
                 })
                 .catch((e) => {
@@ -47,7 +50,7 @@ const AddPost = () => {
                 });
         } else {
             //todo: display error
-            console.log("Cannot add post, provide all credentials.");
+            console.log("Cannot add post, provide all data.");
         }
     };
 
@@ -70,12 +73,31 @@ const AddPost = () => {
             >
                 <Typography variant="h3">New post</Typography>
                 <form>
-                    <FormControl sx={{ width: "40vw", mt: "5vh", gap: "1vh" }}>
+                    <FormControl sx={{width: "40vw", mt: 2, minHeight: "60vh"}}>
+                        <InputLabel id="category-label">Category</InputLabel>
+                        <Select
+                            required
+                            labelId="category-label"
+                            id="category-select"
+                            value={category}
+                            sx={{ m: 2 }}
+                            label="Category"
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <MenuItem value={"TECH"}>TECH</MenuItem>
+                            <MenuItem value={"SPORT"}>SPORT</MenuItem>
+                            <MenuItem value={"FASHION"}>FASHION</MenuItem>
+                            <MenuItem value={"LIFESTYLE"}>LIFESTYLE</MenuItem>
+                            <MenuItem value={"LITERATURE"}>LITERATURE</MenuItem>
+                            <MenuItem value={"CARS"}>CARS</MenuItem>
+                            <MenuItem value={"TUTORIAL"}>TUTORIAL</MenuItem>
+                            <MenuItem value={"OTHER"}>OTHER</MenuItem>
+                        </Select>
                         <TextField
                             required
                             label="Title"
                             variant="outlined"
-                            sx={{ m: 2 }}
+                            sx={{m: 2}}
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
@@ -83,24 +105,19 @@ const AddPost = () => {
                             required
                             label="Content"
                             variant="outlined"
-                            sx={{ m: 2 }}
+                            sx={{m: 2}}
+                            multiline={true}
+                            rows={10}
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         />
-                        <TextField
-                            required
-                            label="Category"
-                            variant="outlined"
-                            sx={{ m: 2 }}
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                        />
+
                         <IconButton
                             onClick={handleAddPost}
                             color="primary"
-                            sx={{ margin: "0 auto", mt: "1rem" }}
+                            sx={{margin: "0 auto", mt: "1rem"}}
                         >
-                            <PostAddIcon fontSize="large" />
+                            <PostAddIcon fontSize="large"/>
                         </IconButton>
                     </FormControl>
                 </form>
