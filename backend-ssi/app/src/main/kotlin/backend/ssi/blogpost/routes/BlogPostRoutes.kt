@@ -11,6 +11,7 @@ import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
+import org.litote.kmongo.Id
 import org.litote.kmongo.json
 
 class BlogPostRoutes(private val blogPostService: BlogPostService) {
@@ -19,7 +20,7 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
 
 
     fun getAuthedBlogPostRoutes(credentials: RequestContextLens<User>): RoutingHttpHandler =
-        routes(addBlogPost(credentials))
+        routes(addBlogPost(credentials), deleteBlogPost(credentials), deleteBlogPostByUserId(credentials))
 
     fun getUnauthedBlogPostRoutes(): RoutingHttpHandler = routes(getBlogPosts(), getBlogPostById(), getUsersBlgoPosts())
 
@@ -58,4 +59,29 @@ class BlogPostRoutes(private val blogPostService: BlogPostService) {
                         ?.let { Response(Status.OK).body(it.json) }
                         ?: Response(Status.NOT_FOUND).body("Not Found")
             }
+
+    private fun deleteBlogPost(credentials: RequestContextLens<User>): RoutingHttpHandler =
+        "/blog-post/{id}" bind Method.DELETE to { req: Request ->
+            req.path("id")?.let { blogPostId ->
+                getAuthor(blogPostId)?.let {
+                    if (credentials[req].userId == it || credentials[req].entitlements == "admin") {
+                        blogPostService.deleteBlogPost(blogPostId)
+                            .let { Response(Status.OK).body("Successfully deleted post") }
+                    } else Response(Status.UNAUTHORIZED).body("Not authorized")
+                }
+            } ?: Response(Status.NOT_FOUND).body("Not Found")
+        }
+
+    private fun deleteBlogPostByUserId(credentials: RequestContextLens<User>): RoutingHttpHandler =
+        "/blog-post/user/{userId}" bind Method.DELETE to { req: Request ->
+            req.path("userId")?.let { userId ->
+                println(userId)
+                    if (credentials[req].entitlements == "admin") {
+                        blogPostService.deleteBlogsByUserId(userId)
+                            .let { Response(Status.OK).body("Successfully deleted posts") }
+                    } else Response(Status.UNAUTHORIZED).body("Not authorized")
+            } ?: Response(Status.NOT_FOUND).body("Not Found")
+        }
+
+    private fun getAuthor(blogPostId: String): Id<User>? = blogPostService.getBlogPostById(blogPostId)?.authorId
 }

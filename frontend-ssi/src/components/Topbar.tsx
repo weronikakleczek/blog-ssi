@@ -63,6 +63,23 @@ const Topbar: FC<Props> = ({ topbarHeight }) => {
             </Typography>
           </Link>
         </Box>
+          <Box
+              sx={{ display: "center", flexGrow: 1 }}
+          >
+              {user ? (
+                  <Button
+                      variant="outlined"
+                      color="info"
+                      component={Link}
+                      to="/add-post"
+                      sx={{
+                          fontSize: 18,
+                      }}
+                  >
+                      add post
+                  </Button>
+              ) : null}
+              </Box>
         <Box
           sx={{ display: "flex", flexGrow: 1, justifyContent: "space-evenly" }}
         >
