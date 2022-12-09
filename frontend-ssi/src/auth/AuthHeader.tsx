@@ -5,8 +5,6 @@ export default function authHeader(): AxiosRequestHeaders {
   if (jwtToken == null) {
     return {};
   } else {
-    console.log(`Bearer ${jwtToken}`);
-
     return {
       Authorization: `Bearer ${jwtToken}`,
       "content-type": "application/json",

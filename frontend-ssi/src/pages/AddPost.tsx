@@ -41,15 +41,12 @@ const AddPost = () => {
                     {headers: authHeader(),}
                 )
                 .then((response) => {
-                    console.log("Added post successfully. Response: ", response)
                     navigate("/");
                 })
                 .catch((e) => {
-                    //todo: display error
                     console.log("Error adding post: " + e);
                 });
         } else {
-            //todo: display error
             console.log("Cannot add post, provide all data.");
         }
     };
@@ -107,7 +104,7 @@ const AddPost = () => {
                             variant="outlined"
                             sx={{m: 2}}
                             multiline={true}
-                            rows={10}
+                            rows={8}
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         />

@@ -19,9 +19,7 @@ const CommentCard: FC<Props> = ({ comment }) => {
         headers: authHeader(),
       })
       .then((response) => {
-        console.log("im in then!!!");
         const user: User = JSON.parse(JSON.stringify(response.data));
-        console.log("Got user! Here: ", user);
         setAuthorName(user.username);
       })
       .catch((e) => {
@@ -36,7 +34,7 @@ const CommentCard: FC<Props> = ({ comment }) => {
       >
         <Typography sx={{ fontSize: "14px" }}>
           <Link
-            to={`/users/${comment.authorId.$oid}`}
+            to={`/user/${comment.authorId.$oid}/blog-post`}
             style={{ textDecoration: "none", color: "#555" }}
           >
             {authorName}

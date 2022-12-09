@@ -60,11 +60,9 @@ const Login = () => {
           navigate("/");
         })
         .catch((e) => {
-          //todo: display error
           console.log("Error logging in: " + e);
         });
     } else {
-      //todo: display error
       console.log("Cannot log in, provide all credentials.");
     }
   };

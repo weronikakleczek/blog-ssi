@@ -18,7 +18,6 @@ const Home = () => {
                 const blogPostsString: string = JSON.stringify(responseBlogPosts.data);
                 const blogPostsObject: BlogPost[] = JSON.parse(blogPostsString);
                 setBlogList(blogPostsObject);
-                console.log("Retrieved blogs: ", blogPostsObject);
             })
             .catch((error) => {
                 console.log("Error: ", error);

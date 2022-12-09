@@ -29,21 +29,15 @@ const BlogCard: FC<Props> = ({blog, deletePostFun, deleteUserFun}) => {
                     responseAuthor.data
                 );
                 const userObject: User = JSON.parse(user);
-                console.log("user obj: ", userObject)
                 setUser(userObject);
             });
-    },[])
+    }, [])
 
     const getBlogContent = (content: string) => {
         return content.length >= 250
             ? content.slice(0, 250) + "..."
             : content.slice(0, 250);
     };
-
-    useEffect(() => {
-        console.log('">>>>>>>>>>>>>>????????????????')
-        console.log(colors["TECH"]);
-    }, []);
 
     return (
         <Card
@@ -82,17 +76,17 @@ const BlogCard: FC<Props> = ({blog, deletePostFun, deleteUserFun}) => {
             </Link>
             {
                 user ?
-                <div style={{margin: "0.5rem"}}>
-                    {(user.entitlements == "admin") || user.userId.$oid == blog.authorId.$oid ?
-                        <Button sx={{margin: "0.3rem"}} variant="contained" onClick={() => {
-                            deletePostFun(blog.blogPostId)
-                        }}>Delete post</Button> : ""}
-                    {user.entitlements == "admin" ?
-                        <Button sx={{margin: "0.3rem"}} variant="contained" onClick={() => {
-                            deleteUserFun(blog.authorId)
-                        }}>Delete user</Button> :
-                        ""}
-                </div> : "" }
+                    <div style={{margin: "0.5rem"}}>
+                        {(user.entitlements == "admin") || user.userId.$oid == blog.authorId.$oid ?
+                            <Button sx={{margin: "0.3rem"}} variant="contained" onClick={() => {
+                                deletePostFun(blog.blogPostId)
+                            }}>Delete post</Button> : ""}
+                        {user.entitlements == "admin" ?
+                            <Button sx={{margin: "0.3rem"}} variant="contained" onClick={() => {
+                                deleteUserFun(blog.authorId)
+                            }}>Delete user</Button> :
+                            ""}
+                    </div> : ""}
         </Card>
     );
 };

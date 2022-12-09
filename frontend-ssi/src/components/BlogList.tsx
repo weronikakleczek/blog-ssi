@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from "react";
+import React, {FC} from "react";
 import {Box} from "@mui/system";
 import {BlogPost} from "../types/BlogPost";
 import BlogCard from "./BlogCard";
@@ -20,23 +20,15 @@ const BlogList: FC<Props> = ({blogList, setBlogList}) => {
                 const blogPostsString: string = JSON.stringify(responseBlogPosts.data);
                 const blogPostsObject: BlogPost[] = JSON.parse(blogPostsString);
                 setBlogList(blogPostsObject);
-                console.log("Retrieved blogs: ", blogPostsObject);
             })
             .catch((error) => {
                 console.log("Error: ", error);
             });
     }
 
-    useEffect(() => {
-        //getBlogs()
-    }, []);
-
-    useEffect(() => {
-        console.log("IM HERE", blogList);
-    }, []);
-
     const deletePostCallback = (blogId: uuid) => {
         axios.delete(`http://localhost:9000/blog-post/` + blogId.$oid, {headers: authHeader()})
+            .then((response) => {return true})
             .catch((error) => {
                 console.log("Error: ", error);
             })
@@ -45,15 +37,13 @@ const BlogList: FC<Props> = ({blogList, setBlogList}) => {
 
     const deleteUserCallback = (userId: uuid) => {
         axios.delete(`http://localhost:9000/users/` + userId.$oid, {headers: authHeader()})
-            .then((response) => {
-                console.log("r: ", response)
-                console.log("rd: ", response.data)
-            })
+            .then((response) => {return true})
             .catch((error) => {
                 console.log("Error: ", error);
             })
 
         axios.delete(`http://localhost:9000/blog-post/user/` + userId.$oid, {headers: authHeader()})
+            .then((response) => {return true})
             .catch((error) => {
                 console.log("Error: ", error);
             })
